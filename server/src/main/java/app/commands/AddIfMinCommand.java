@@ -5,7 +5,6 @@ import app.managers.CollectionManager;
 import network.ExecutionResponse;
 import objects.Organization;
 import utility.User;
-
 import java.io.Serializable;
 
 public class AddIfMinCommand extends ServerCommand {

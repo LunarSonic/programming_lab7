@@ -3,7 +3,7 @@ import network.Request;
 import commands.CommandName;
 
 /**
- * Класс для парсинга запроса от сервера
+ * Класс для парсинга запроса (команды) от клиента
  */
 public class RequestParser {
 

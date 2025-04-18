@@ -14,7 +14,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
- * Класс для выполнения запросов в базе данных
+ * Класс для управления пользователями и элементами в базе данных
  */
 public class DatabaseUserManager {
     private final DatabaseManager dbManager = new DatabaseManager();
@@ -30,7 +30,7 @@ public class DatabaseUserManager {
     }
 
     /**
-     * Метод, который регестрирует пользователя в приложении
+     * Метод, который регистрирует пользователя в приложении
      * @param user пользователь
      * @return ответ
      */
@@ -38,9 +38,9 @@ public class DatabaseUserManager {
         try {
             if (!findUser(user.getLogin())) {
                 addUser(user.getLogin(), user.getPassword());
-                return new ExecutionResponse("Зарегестрирован новый пользователь: "  + user.getLogin());
+                return new ExecutionResponse("Зарегистрирован новый пользователь: "  + user.getLogin());
             } else {
-                return new ExecutionResponse("Такой логин уже есть: " + user.getLogin());
+                return new ExecutionResponse(false, "Такой логин уже есть: " + user.getLogin());
             }
         } catch (Exception e) {
             return new ExecutionResponse(false, e.getMessage());

@@ -1,4 +1,5 @@
 package app.commands;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -6,6 +7,8 @@ import java.util.Objects;
  * Абстрактный класс, классы клиентских команд наследуются от него и реализуют метод execute()
  */
 public abstract class ClientCommand implements ExecutableForClientCommand, Serializable {
+    @Serial
+    private static final long serialVersionUID = 41L;
     private final String commandName;
     private final String description;
 

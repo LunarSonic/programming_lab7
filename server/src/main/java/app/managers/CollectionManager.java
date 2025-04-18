@@ -123,7 +123,7 @@ public class CollectionManager implements Serializable {
     @Override
     public String toString() {
         if (organizationCollection.isEmpty()) {
-            return "Коллекция пустая!";
+            return "Коллекция пустая";
         }
         return organizationCollection.stream()
                 .map(Organization::toString)

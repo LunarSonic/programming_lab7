@@ -8,7 +8,7 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 
 /**
- * Класс, отвечающий за регистрацию и авторизацию пользователя
+ * Класс, отвечающий за регистрацию и авторизацию пользователя в приложении
  */
 public class UserModule {
     Console console = System.console();
@@ -16,7 +16,10 @@ public class UserModule {
     private AppLogger logger = new AppLogger(UserModule.class);
     private NetworkHandler networkHandler;
 
-
+    /**
+     * Метод для взаимодействия с пользователем
+     * @return объект класса User с данными пользователя
+     */
     public User userAction() {
         appConsole.println("Добро пожаловать в приложение!");
         appConsole.println("Есть ли у вас учётная запись? [yes/no]");
@@ -30,6 +33,10 @@ public class UserModule {
         }
     }
 
+    /**
+     * Метод, который регистрирует нового пользователя в приложении
+     * @return объект класса User, если всё успешно, иначе false
+     */
     private User registerUser() {
         String login;
         String password;
@@ -74,12 +81,14 @@ public class UserModule {
         User user = new User(login, password);
         RequestCreator requestCreator = new RequestCreator(user);
         ExecutionResponse response = networkHandler.sendAndReceive(requestCreator.createRegisterRequest(user));
-        if (response.getResponse()) {
-            appConsole.println(response.getMessage());
-        }
+        appConsole.println(response.getMessage());
         return user;
     }
 
+    /**
+     * Метод, который авторизует пользователя в приложении
+     * @return объект класса User, если всё успешно, иначе false
+     */
     private User loginUser() {
         String login;
         String password;
@@ -126,13 +135,13 @@ public class UserModule {
             User user = new User(login, password);
             RequestCreator requestCreator = new RequestCreator(user);
             ExecutionResponse response = networkHandler.sendAndReceive(requestCreator.createLoginRequest(user));
+            appConsole.println(response.getMessage());
             if (response.getResponse()) {
-                appConsole.println(response.getMessage());
                 return user;
             } else {
                 attempts--;
                 if (attempts > 0) {
-                    logger.error("Такого логина нет или неверный пароль. Осталось попыток: " + attempts);
+                    logger.error("Осталось попыток для входа в приложение: " + attempts);
                 } else {
                     logger.error("Превышено количество попыток для входа. Повторите действие позже");
                     return null;
@@ -142,6 +151,10 @@ public class UserModule {
         return null;
     }
 
+    /**
+     * Сеттер для объекта класса NetworkHandler
+     * @param networkHandler объекта класса NetworkHandler
+     */
     public void setNetworkHandler(NetworkHandler networkHandler) {
         this.networkHandler = networkHandler;
     }

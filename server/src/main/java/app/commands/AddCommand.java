@@ -36,7 +36,7 @@ public class AddCommand extends ServerCommand {
             Organization organization = (Organization) objectArg;
             Long id = databaseUserManager.addOrganization(organization, user.getLogin());
             if (id == -1L) {
-                return new ExecutionResponse(false, "Ошибка при добавлении организации из-за неккоторектных данных");
+                return new ExecutionResponse(false, "Ошибка при добавлении организации из-за неккоректных данных");
             }
             organization.setId(id);
             collectionManager.addOrganization(organization);

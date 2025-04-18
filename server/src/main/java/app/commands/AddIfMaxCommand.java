@@ -5,9 +5,11 @@ import app.managers.CollectionManager;
 import network.ExecutionResponse;
 import objects.Organization;
 import utility.User;
-
 import java.io.Serializable;
 
+/**
+ * Класс команды add_if_max
+ */
 public class AddIfMaxCommand extends ServerCommand{
     private final CollectionManager collectionManager;
     private final DatabaseUserManager databaseUserManager;
