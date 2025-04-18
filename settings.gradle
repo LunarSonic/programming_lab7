@@ -1,0 +1,5 @@
+rootProject.name = 'programming_lab7'
+include 'server'
+include 'common'
+include 'client'
+

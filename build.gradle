@@ -1,0 +1,89 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'com.github.johnrengelman.shadow'
+    repositories {
+        mavenCentral()
+    }
+    compileJava.options.encoding = 'UTF-8'
+    javadoc.options.encoding = 'UTF-8'
+    compileTestJava.options.encoding = 'UTF-8'
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+    }
+}
+
+project(':client') {
+    apply plugin: 'application'
+    dependencies {
+        implementation project(':common')
+    }
+
+    application {
+        mainClass = 'app.App'
+    }
+
+    tasks.named("run") {
+        standardInput = System.in
+    }
+
+    shadowJar {
+        configurations = [project.configurations.runtimeClasspath]
+    }
+}
+
+project(':server') {
+    apply plugin: 'application'
+
+    dependencies {
+        implementation project(':common')
+        implementation 'ch.qos.logback:logback-classic:1.4.14'
+        implementation 'org.postgresql:postgresql:42.7.5'
+    }
+
+    application {
+        mainClass = 'app.App'
+    }
+
+    shadowJar {
+        configurations = [project.configurations.runtimeClasspath]
+    }
+}
+
+project(':common') {
+    apply plugin: 'java'
+
+    dependencies {
+        implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+        implementation 'ch.qos.logback:logback-classic:1.4.14'
+    }
+
+    jar {
+        archiveClassifier = 'common'
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+allprojects {
+    tasks.register('fatJar', Jar) {
+        archiveClassifier = 'fat'
+        from sourceSets.main.output
+        dependsOn configurations.runtimeClasspath
+
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+        from {
+            configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+        }
+    }
+}
+
