@@ -58,7 +58,7 @@ public class CollectionManager implements Serializable {
     }
 
     /**
-     * Сеттер для коллекции
+     * Сеттер для объекта коллекции
      * @param organizationCollection коллекция
      */
     public synchronized void setOrganizationCollection(LinkedHashSet<Organization> organizationCollection) {
