@@ -4,6 +4,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Класс для хэширования паролей
+ */
 public class PasswordCreator {
     AppLogger logger = new AppLogger(PasswordCreator.class);
     private static PasswordCreator instance = null;
@@ -15,6 +18,11 @@ public class PasswordCreator {
         return instance;
     }
 
+    /**
+     * Метод, используемый для хэширования пароля алгоритмом MD2
+     * @param password пароль
+     * @return хэшированный пароль
+     */
     public String encryptPassword(String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("MD2");
@@ -31,6 +39,10 @@ public class PasswordCreator {
         return password;
     }
 
+    /**
+     * Метод для генерации соли, которая используется для пароля
+     * @return соль
+     */
     public String generateSalt() {
         String symbols = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ[]!?()@#$%^&*_+:;{}";
         StringBuilder salt = new StringBuilder();

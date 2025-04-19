@@ -56,7 +56,7 @@ public class DatabaseManager {
                 CREATE TABLE IF NOT EXISTS organizations (
                     id BIGINT PRIMARY KEY DEFAULT nextval('organizationsSequence'),
                     org_name TEXT NOT NULL,
-                    coordinate_x FLOAT NOT NULL CHECK(coordinate_x > -947),
+                    coordinate_x DOUBLE PRECISION NOT NULL CHECK(coordinate_x > -947),
                     coordinate_y BIGINT NOT NULL,
                     creation_date DATE NOT NULL,
                     annual_turnover BIGINT NOT NULL CHECK(annual_turnover > 0),

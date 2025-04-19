@@ -37,7 +37,7 @@ public class RemoveByIdCommand extends ServerCommand {
                     collectionManager.removeByIdFromCollection(id);
                     return new ExecutionResponse("Элемент коллекции c id " + id+ " удалён");
                 } else {
-                    return new ExecutionResponse(false, "Вы не можете удалить элемент с id " + id + ", так он не был создан вами");
+                    return new ExecutionResponse(false, "Вы не можете удалить элемент с id " + id + ", т.к он не был создан вами");
                 }
             } else {
                 return new ExecutionResponse(false, "Элемент с id " + id + " отсутствует");
