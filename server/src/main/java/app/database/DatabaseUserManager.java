@@ -180,7 +180,7 @@ public class DatabaseUserManager {
                 Long id = result.getLong("id");
                 String name = result.getString("org_name");
                 Coordinates coordinates = new Coordinates(result.getDouble("coordinate_x"), result.getLong("coordinate_y"));
-                LocalDateTime date = result.getDate("creation_date").toLocalDate().atStartOfDay();
+                LocalDateTime date = result.getTimestamp("creation_date").toLocalDateTime();
                 long annualTurnover = result.getLong("annual_turnover");
                 String type = result.getString("type");
                 OrganizationType organizationType;
@@ -250,11 +250,11 @@ public class DatabaseUserManager {
         try (Connection connection = dbManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(addQuery, Statement.RETURN_GENERATED_KEYS);
             Coordinates coordinates = organization.getCoordinates();
-            java.sql.Date date = Date.valueOf(organization.getCreationDate().toLocalDate());
+            java.sql.Timestamp date = Timestamp.valueOf(organization.getCreationDate());
             statement.setString(1, organization.getName());
             statement.setDouble(2, coordinates.getX());
             statement.setLong(3, coordinates.getY());
-            statement.setDate(4, date);
+            statement.setTimestamp(4, date);
             statement.setLong(5, organization.getAnnualTurnover());
             if (organization.getType() != null) {
                 statement.setString(6, organization.getType().toString());
@@ -346,7 +346,7 @@ public class DatabaseUserManager {
             updateStatement.setString(1, newOrganization.getName());
             updateStatement.setDouble(2, newOrganization.getCoordinates().getX());
             updateStatement.setLong(3, newOrganization.getCoordinates().getY());
-            updateStatement.setDate(4, Date.valueOf(newOrganization.getCreationDate().toLocalDate()));
+            updateStatement.setTimestamp(4, Timestamp.valueOf(newOrganization.getCreationDate()));
             updateStatement.setLong(5, newOrganization.getAnnualTurnover());
             if (newOrganization.getType() != null) {
                 updateStatement.setString(6, newOrganization.getType().toString());

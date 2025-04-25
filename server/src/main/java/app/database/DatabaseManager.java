@@ -58,7 +58,7 @@ public class DatabaseManager {
                     org_name TEXT NOT NULL,
                     coordinate_x DOUBLE PRECISION NOT NULL CHECK(coordinate_x > -947),
                     coordinate_y BIGINT NOT NULL,
-                    creation_date DATE NOT NULL,
+                    creation_date TIMESTAMP NOT NULL,
                     annual_turnover BIGINT NOT NULL CHECK(annual_turnover > 0),
                     type VARCHAR(20) CHECK(type in ('PUBLIC', 'TRUST', 'COMMERCIAL', 'OPEN_JOINT_STOCK_COMPANY') OR type IS NULL),
                     postal_address TEXT NOT NULL,
