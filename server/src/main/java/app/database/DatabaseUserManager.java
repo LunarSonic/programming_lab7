@@ -213,7 +213,7 @@ public class DatabaseUserManager {
             result.next();
             return result.getInt(1) > 0;
         } catch (SQLException e) {
-            logger.error("Ошибка при проверки организации на существование");
+            logger.error("Ошибка при проверке организации на существование");
             return false;
         }
     }
@@ -351,7 +351,7 @@ public class DatabaseUserManager {
             if (newOrganization.getType() != null) {
                 updateStatement.setString(6, newOrganization.getType().toString());
             } else {
-                updateStatement.setNull(6, Types.VARCHAR);
+                updateStatement.setString(6, null);
             }
             updateStatement.setString(7, newOrganization.getPostalAddress().getStreet());
             updateStatement.setLong(8, id);
@@ -395,6 +395,25 @@ public class DatabaseUserManager {
             return removedOrganizations > 0;
         } catch (SQLException e) {
             logger.error("Ошибка при удалении организации по id из базы данных");
+            return false;
+        }
+    }
+
+    /**
+     * Метод, проверяющий существование годового оборота в базе данных
+     * @param annualTurnover годовой оборот
+     * @return true, если существует, иначе false
+     */
+    public boolean checkAnnualTurnoverExistence(long annualTurnover) {
+        String annualTurnoverQuery = "SELECT COUNT(*) FROM organizations WHERE annual_turnover = ?;";
+        try(Connection connection = dbManager.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(annualTurnoverQuery);
+            statement.setLong(1, annualTurnover);
+            ResultSet result = statement.executeQuery();
+            result.next();
+            return result.getInt(1) > 0;
+        } catch (SQLException e) {
+            logger.error("Ошибка при проверке годового оборота на существование");
             return false;
         }
     }

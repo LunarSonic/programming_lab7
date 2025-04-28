@@ -34,11 +34,15 @@ public class RemoveAllByAnnualTurnoverCommand extends ServerCommand {
         if (databaseUserManager.checkUser(user.getLogin(), user.getPassword())) {
             List<Long> ids = databaseUserManager.getIdsOfUsersElements(user.getLogin());
             long annualTurnover = Long.parseLong(args[1]);
-            if (databaseUserManager.removeAllByAnnualTurnover(annualTurnover, user.getLogin())) {
-                collectionManager.removeAllByAnnualTurnover(annualTurnover, ids);
-                return new ExecutionResponse("Элемент/элементы коллекции c annualTurnover " + annualTurnover + " удалён/удалены");
+            if (databaseUserManager.checkAnnualTurnoverExistence(annualTurnover)) {
+                if (databaseUserManager.removeAllByAnnualTurnover(annualTurnover, user.getLogin())) {
+                    collectionManager.removeAllByAnnualTurnover(annualTurnover, ids);
+                    return new ExecutionResponse("Элемент/элементы коллекции c annualTurnover " + annualTurnover + " удалён/удалены");
+                } else {
+                    return new ExecutionResponse(false, "Нет элемента/элементов с annualTurnover " + annualTurnover + " ,которые были созданы вами");
+                }
             } else {
-                return new ExecutionResponse(false, "Нет элемента/элементов с annualTurnover" + annualTurnover);
+                return new ExecutionResponse(false, "Элемент с " + annualTurnover + " отсутствует");
             }
         } else {
             return new ExecutionResponse(false, "Несоответствие логина и пароля");

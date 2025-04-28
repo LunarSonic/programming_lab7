@@ -54,6 +54,11 @@ public class RequestCreator {
         return new Request(RequestType.LOGIN, user);
     }
 
+    /**
+     * Метод для создания запроса на регистрацию пользователя
+     * @param user пользователь
+     * @return объект класса Request
+     */
     public Request createRegisterRequest(User user) {
         return new Request(RequestType.REGISTER, user);
     }

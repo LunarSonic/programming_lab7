@@ -81,8 +81,14 @@ public class UserModule {
         User user = new User(login, password);
         RequestCreator requestCreator = new RequestCreator(user);
         ExecutionResponse response = networkHandler.sendAndReceive(requestCreator.createRegisterRequest(user));
-        appConsole.println(response.getMessage());
-        return user;
+        if (response.getResponse()) {
+            appConsole.println(response.getMessage());
+            return user;
+        } else {
+            appConsole.println(response.getMessage());
+            appConsole.println("Переход к авторизации");
+            return loginUser();
+        }
     }
 
     /**
