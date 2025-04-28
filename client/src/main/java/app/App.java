@@ -3,7 +3,6 @@ import app.cli.Runner;
 import app.network.NetworkHandler;
 import app.utility.CommandHandler;
 import app.utility.UserModule;
-import utility.AppConsole;
 import utility.AppLogger;
 import utility.User;
 
@@ -12,7 +11,6 @@ import utility.User;
  */
 public class App {
     public static void main(String[] args) {
-        AppConsole console = new AppConsole();
         AppLogger logger = new AppLogger(App.class);
         UserModule userModule = new UserModule();
         var networkHandler = new NetworkHandler("helios.cs.ifmo.ru", 8898);

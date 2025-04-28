@@ -170,7 +170,7 @@ public class DatabaseUserManager {
      * Метод, который загружает коллекцию из базы данных
      * @return коллекция
      */
-    public synchronized LinkedHashSet<Organization> loadCollection() {
+    public LinkedHashSet<Organization> loadCollection() {
         LinkedHashSet<Organization> organizations = new LinkedHashSet<>();
         String loadQuery = "SELECT * FROM organizations;";
         try (Connection connection = dbManager.getConnection()) {

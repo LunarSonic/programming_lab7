@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
  */
 public class UserModule {
     Console console = System.console();
-    private AppConsole appConsole = new AppConsole();
+    private AppConsole appConsole = AppConsole.getConsoleInstance();
     private AppLogger logger = new AppLogger(UserModule.class);
     private NetworkHandler networkHandler;
 

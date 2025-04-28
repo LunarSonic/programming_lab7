@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 public class Runner {
     private User user;
     private final Map<CommandName, String[]> commands;
-    private final AppConsole console = new AppConsole();
+    private final AppConsole console = AppConsole.getConsoleInstance();
     private final AppLogger logger = new AppLogger(Runner.class);
     private final ScriptManager scriptManager;
     private final CommandHandler commandHandler;

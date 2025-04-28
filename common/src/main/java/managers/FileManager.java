@@ -1,5 +1,4 @@
 package managers;
-import utility.AppConsole;
 import utility.AppLogger;
 import java.io.*;
 import java.util.Arrays;
@@ -15,13 +14,11 @@ public class FileManager implements Serializable {
     private static final long serialVersionUID = 8L;
     private final Set<String> allFilePaths;
     private final AppLogger logger;
-    private final AppConsole console;
 
     /**
      * Конструктор класса FileManager
      */
     public FileManager() {
-        this.console = new AppConsole();
         this.logger = new AppLogger(FileManager.class);
         this.allFilePaths = loadFilesFromEnvironmentVariables();
         if (allFilePaths == null) {

@@ -16,7 +16,6 @@ public class Request implements Serializable {
     private RequestType requestType;
     private User user;
 
-
     public Request(CommandName commandName, String commandArgs, Serializable commandObjectArg, RequestType requestType, User user) {
         this.commandName = commandName;
         this.commandArgs = commandArgs;

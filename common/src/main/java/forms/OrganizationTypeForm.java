@@ -16,7 +16,7 @@ public class OrganizationTypeForm extends BasicFormation<OrganizationType> {
     private final AppLogger logger;
 
     public OrganizationTypeForm() {
-        this.console = new AppConsole();
+        this.console = AppConsole.getConsoleInstance();
         this.logger = new AppLogger(OrganizationTypeForm.class);
     }
 
@@ -32,7 +32,6 @@ public class OrganizationTypeForm extends BasicFormation<OrganizationType> {
                 return OrganizationType.valueOf(line);
             } catch (IllegalArgumentException e) {
                 logger.error("Такого типа организации нет в списке");
-                throw new FormBreak();
             } catch (IllegalStateException e) {
                 logger.error("Непредвиденная ошибка");
                 System.exit(0);

@@ -18,7 +18,7 @@ public class OrganizationForm extends BasicFormation<Organization> {
     private final AppLogger logger;
 
     public OrganizationForm() {
-        this.console = new AppConsole();
+        this.console = AppConsole.getConsoleInstance();
         this.logger = new AppLogger(OrganizationForm.class);
     }
 
@@ -50,10 +50,8 @@ public class OrganizationForm extends BasicFormation<Organization> {
                 if (name.equals("exit")) throw new FormBreak();
                 if (name.isEmpty()) {
                     logger.error("Поле не может быть пустым!");
-                    throw new FormBreak();
                 } else if (!name.matches("^[a-zA-Zа-яА-Я]+(?:'?[a-zA-Zа-яА-Я]+)*(?:\\s[a-zA-Zа-яА-Я]+(?:[a-zA-Zа-яА-Я]+)*)*$")) {
-                    logger.error("Название организации может содержать только английские буквы, пробелы и 1 кавычку!");
-                    throw new FormBreak();
+                    logger.error("Название организации может содержать только английские и русские буквы, пробелы и 1 кавычку!");
                 } else {
                     break;
                 }
@@ -93,10 +91,8 @@ public class OrganizationForm extends BasicFormation<Organization> {
                 }
             } catch (NotInLimitsException e) {
                 logger.error("Значение поля должно быть больше 0");
-                throw new FormBreak();
             } catch (NumberFormatException e) {
                 logger.error("Значение поля должно быть типа long");
-                throw new FormBreak();
             } catch (NoSuchElementException e) {
                 logger.error("Значение поля не может быть использовано");
             } catch (IllegalStateException e) {

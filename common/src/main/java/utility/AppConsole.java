@@ -12,6 +12,14 @@ public class AppConsole implements Serializable {
     @Serial
     private static final long serialVersionUID = 14L;
     private PrintStream console;
+    private static AppConsole instance = null;
+
+    public static AppConsole getConsoleInstance() {
+        if (instance == null) {
+            instance = new AppConsole();
+        }
+        return instance;
+    }
 
     /**
      * Строка приглашения

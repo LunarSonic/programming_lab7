@@ -27,6 +27,7 @@ public class ShowCommand extends ServerCommand {
     public ExecutionResponse execute(String[] args, Serializable objectArg, User user) {
         if (args.length != 1)
             return new ExecutionResponse(false, "Неправильное кол-во аргументов!\n");
+        collectionManager.sort();
         String collectionData = collectionManager.toString();
         return new ExecutionResponse(collectionData);
     }

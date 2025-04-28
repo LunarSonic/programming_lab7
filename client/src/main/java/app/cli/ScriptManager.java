@@ -13,8 +13,8 @@ import java.util.*;
  * Класс, который управляет скриптом
  */
 public class ScriptManager {
-    private final AppConsole console;
-    private final AppLogger logger = new AppLogger(ScriptManager.class);
+    private final AppConsole console = AppConsole.getConsoleInstance();
+    private static final AppLogger logger = new AppLogger(ScriptManager.class);
     private int lengthRecursion = -1;
     private final Deque<String> scriptStack = new ArrayDeque<>(); //стек выполняемых скриптов
     private final FileManager fileManager;
@@ -24,7 +24,6 @@ public class ScriptManager {
      * Конструктор класса ScriptManager
      */
     public ScriptManager() {
-        this.console = new AppConsole();
         this.fileManager = new FileManager();
     }
 

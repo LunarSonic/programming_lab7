@@ -28,7 +28,7 @@ public class CollectionManager implements Serializable {
     /**
      * Метод, который загружает коллекцию из базы данных
      */
-    public void loadCollection() {
+    public synchronized void loadCollection() {
         this.lastInitTime = LocalDateTime.now();
         this.setOrganizationCollection(databaseUserManager.loadCollection());
     }
@@ -63,6 +63,20 @@ public class CollectionManager implements Serializable {
      */
     public synchronized void setOrganizationCollection(LinkedHashSet<Organization> organizationCollection) {
         this.organizationCollection = organizationCollection;
+    }
+
+    /**
+     * Метод, который позволяет получить объект коллекции по id
+     * @param id уникальный id
+     * @return объект Organization
+     */
+    public Organization getObjectById(Long id) {
+        for (Organization organization : organizationCollection) {
+            if (organization.getId().equals(id)) {
+                return organization;
+            }
+        }
+        return null;
     }
 
     /**
@@ -128,5 +142,19 @@ public class CollectionManager implements Serializable {
         return organizationCollection.stream()
                 .map(Organization::toString)
                 .collect(Collectors.joining("\n"));
+    }
+
+    /**
+     * Метод, который обновляет поля существующей организации на значения полей новой организации
+     * @param existingOrganization организация, которую мы хотим обновить
+     * @param newOrganization новая организация
+     */
+    public void updateOrganizationFields(Organization existingOrganization, Organization newOrganization) {
+        existingOrganization.setName(newOrganization.getName());
+        existingOrganization.setCoordinates(newOrganization.getCoordinates());
+        existingOrganization.setCreationDate(newOrganization.getCreationDate());
+        existingOrganization.setType(newOrganization.getType());
+        existingOrganization.setAnnualTurnover(newOrganization.getAnnualTurnover());
+        existingOrganization.setPostalAddress(newOrganization.getPostalAddress());
     }
 }

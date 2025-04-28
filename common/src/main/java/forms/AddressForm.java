@@ -15,7 +15,7 @@ public class AddressForm extends BasicFormation<Address> {
     private final AppLogger logger;
 
     public AddressForm() {
-        this.console = new AppConsole();
+        this.console = AppConsole.getConsoleInstance();
         this.logger = new AppLogger(AddressForm.class);
     }
 
@@ -28,7 +28,7 @@ public class AddressForm extends BasicFormation<Address> {
     /**
      * Метод, который запрашивает улицу у пользователя
      */
-    private String askStreet() throws FormBreak {
+    private String askStreet() throws FormBreak{
         String street;
         while (true) {
             try {
@@ -39,7 +39,6 @@ public class AddressForm extends BasicFormation<Address> {
                     break;
                 } else {
                     logger.error("Поле не может быть null");
-                    throw new FormBreak();
                 }
             } catch (IllegalStateException e) {
                 logger.error("Непредвиденная ошибка");

@@ -17,7 +17,7 @@ public class CoordinatesForm extends BasicFormation<Coordinates> {
     private final AppLogger logger;
 
     public CoordinatesForm() {
-        this.console = new AppConsole();
+        this.console = AppConsole.getConsoleInstance();
         this.logger = new AppLogger(CoordinatesForm.class);
     }
 
@@ -45,14 +45,11 @@ public class CoordinatesForm extends BasicFormation<Coordinates> {
                     break;
                 } else {
                     logger.error("Поле не может быть null");
-                    throw new FormBreak();
                 }
             } catch (NotInLimitsException e) {
                 logger.error("Значение должно быть больше -947");
-                throw new FormBreak();
             } catch (NumberFormatException e) {
                 logger.error("Значение должно быть типа Double");
-                throw new FormBreak();
             }  catch (NoSuchElementException e) {
                 logger.error("Данное значение поля не может быть использовано");
             } catch (IllegalStateException e) {
@@ -79,7 +76,6 @@ public class CoordinatesForm extends BasicFormation<Coordinates> {
                     break;
                 } else {
                     logger.error("Поле не может быть null");
-                    throw new FormBreak();
                 }
             } catch (NumberFormatException e) {
                 logger.error("Значение должно быть типа Long");
