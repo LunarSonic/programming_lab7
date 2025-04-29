@@ -143,18 +143,4 @@ public class CollectionManager implements Serializable {
                 .map(Organization::toString)
                 .collect(Collectors.joining("\n"));
     }
-
-    /**
-     * Метод, который обновляет поля существующей организации на значения полей новой организации
-     * @param existingOrganization организация, которую мы хотим обновить
-     * @param newOrganization новая организация
-     */
-    public void updateOrganizationFields(Organization existingOrganization, Organization newOrganization) {
-        existingOrganization.setName(newOrganization.getName());
-        existingOrganization.setCoordinates(newOrganization.getCoordinates());
-        existingOrganization.setCreationDate(newOrganization.getCreationDate());
-        existingOrganization.setType(newOrganization.getType());
-        existingOrganization.setAnnualTurnover(newOrganization.getAnnualTurnover());
-        existingOrganization.setPostalAddress(newOrganization.getPostalAddress());
-    }
 }

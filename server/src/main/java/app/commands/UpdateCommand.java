@@ -36,8 +36,9 @@ public class UpdateCommand extends ServerCommand {
             Organization organization = (Organization) objectArg;
             if (databaseUserManager.checkOrganizationExistence(id)) {
                 if (databaseUserManager.updateOrganizationById(id, organization, user.getLogin())) {
-                    Organization existingOrganization = collectionManager.getObjectById(id);
-                    collectionManager.updateOrganizationFields(existingOrganization, organization);
+                    organization.setId(id);
+                    collectionManager.removeByIdFromCollection(id);
+                    collectionManager.addOrganization(organization);
                     return new ExecutionResponse("Элемент коллекции c id " + id + " обновлён");
                 } else {
                     return new ExecutionResponse(false, "Вы не можете обновить элемент с id " + id + ", т.к он не был создан вами");
