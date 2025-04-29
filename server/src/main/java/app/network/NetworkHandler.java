@@ -12,6 +12,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -73,6 +74,20 @@ public class NetworkHandler {
      * Метод, который запускает сервер и ожидает подключения клиента
      */
     public void start() {
+        new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                String input = scanner.nextLine();
+                if (input == null || input.isEmpty()) {
+                    continue;
+                }
+                input = input.trim();
+                if (input.equals("exit")) {
+                    logger.info("Завершение работы сервера");
+                    System.exit(0);
+                }
+            }
+        }).start();
         try {
             while (true) {
                 selector.select();
