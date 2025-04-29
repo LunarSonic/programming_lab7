@@ -26,8 +26,6 @@ public class NetworkHandler {
     private final CommandManager commandManager;
     private final DatabaseUserManager databaseUserManager;
     private Selector selector;
-    private ExecutionResponse response;
-    private Request request;
     private final RequestParser requestParser;
     private final AppLogger logger = new AppLogger(NetworkHandler.class);
     private final CollectionManager collectionManager;
@@ -112,23 +110,18 @@ public class NetworkHandler {
                         if (receivedRequest == null) { //если клиент отключился, пропускаем обработку и отправку ответа
                             continue;
                         }
-                        request = receivedRequest;
-                        Thread processRequest = new Thread(this::executeRequest);
-                        processRequest.start();
-                        processRequest.join();
-                        socketChannel.register(selector, SelectionKey.OP_WRITE);
-                    }
-                    if (key.isWritable()) {
-                        SocketChannel socketChannel = (SocketChannel) key.channel();
-                        socketChannel.configureBlocking(false);
-                        writeRequestPool.submit(() -> {
-                            try {
-                                sendResponse(socketChannel);
-                            } catch (IOException e) {
-                                logger.error("Ошибка в обработке подключений");
-                            }
+                        Request request = receivedRequest;
+                        Thread processRequest = new Thread(() -> {
+                            ExecutionResponse response = executeRequest(request);
+                            writeRequestPool.submit(() -> {
+                                try {
+                                    sendResponse(socketChannel, response);
+                                } catch (IOException e) {
+                                    logger.error("Ошибка в обработке подключений");
+                                }
+                            });
                         });
-                        socketChannel.register(selector, SelectionKey.OP_READ);
+                        processRequest.start();
                     }
                 }
             }
@@ -171,15 +164,18 @@ public class NetworkHandler {
         byte[] data = new byte[buffer.remaining()];
         buffer.get(data);
         if (data.length > 0) {
-            request = Serializer.getInstance().deserialize(data, Request.class);
+            Request request = Serializer.getInstance().deserialize(data, Request.class);
+            return request;
+        } else {
+            return null;
         }
-        return request;
     }
 
     /**
      * Метод для обработки запроса от клиента
      */
-    private void executeRequest() {
+    private ExecutionResponse executeRequest(Request request) {
+        ExecutionResponse response = null;
         switch (request.getRequestType()) {
             case COMMAND -> {
                 var command = commandManager.getCommands().get(request.getCommandName().toString());
@@ -197,13 +193,14 @@ public class NetworkHandler {
             commandManager.addCommandToHistory(request.getCommandName().getName());
         }
         logger.info("Запрос от клиента обработан");
+        return response;
     }
 
     /**
      * Метод, который отправляет ответ клиенту
      * @param client канал, через который отправляется ответ
      */
-    private void sendResponse(SocketChannel client) throws IOException {
+    private void sendResponse(SocketChannel client, ExecutionResponse response) throws IOException {
         byte[] responseData = Serializer.getInstance().serialize(response);
         ByteBuffer lengthBuffer = ByteBuffer.allocate(4);
         lengthBuffer.putInt(responseData.length);
