@@ -124,7 +124,7 @@ public class CollectionManager implements Serializable {
     /**
      * Сортировка коллекции по id
      */
-    public synchronized void sort() {
+    public void sort() {
         organizationCollection = organizationCollection.stream()
                 .sorted(Comparator.comparing(Organization::getId))
                 .collect(Collectors.toCollection(LinkedHashSet::new));

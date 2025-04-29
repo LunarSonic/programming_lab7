@@ -18,7 +18,11 @@ public class DatabaseManager {
     public Connection connect() {
         try {
             Class.forName("org.postgresql.Driver");
-            String propertiesPath = "/home/studs/s464900/programming_lab7/server/src/main/resources/database.properties";
+            String propertiesPath = System.getenv("DB_PROPERTIES");
+            if (propertiesPath == null) {
+                logger.error("Переменная окружения DB_PROPERTIES не найдена");
+                System.exit(-1);
+            }
             Properties properties = new Properties();
             properties.load(new FileInputStream(propertiesPath));
             String url = properties.getProperty("link");
