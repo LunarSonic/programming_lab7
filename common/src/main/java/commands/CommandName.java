@@ -21,10 +21,8 @@ public enum CommandName implements Serializable {
     save("save"),
     show("show"),
     sum_of_annual_turnover("sum_of_annual_turnover"),
-    update("update"),
-    register("register"),
-    logIn("logIn");
-
+    update("update");
+    
     @Serial
     private static final long serialVersionUID = 2L;
     private final String name;
