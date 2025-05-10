@@ -33,9 +33,9 @@ public class AddIfMinCommand extends ServerCommand {
             Organization organization = (Organization) objectArg;
             Long id = databaseUserManager.addIfMinOrganization(organization, user.getLogin());
             if (id == -1L) {
-                return new ExecutionResponse("Не получилось выполнить команду");
+                return new ExecutionResponse(false, "Не получилось выполнить команду");
             } else if (id == -2L) {
-                return new ExecutionResponse("Элемент не оказался минимальным");
+                return new ExecutionResponse(false, "Элемент не оказался минимальным");
             }
             organization.setId(id);
             collectionManager.addOrganization(organization);
