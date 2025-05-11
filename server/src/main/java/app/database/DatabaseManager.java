@@ -64,7 +64,7 @@ public class DatabaseManager {
                     coordinate_y BIGINT NOT NULL,
                     creation_date TIMESTAMP NOT NULL,
                     annual_turnover BIGINT NOT NULL CHECK(annual_turnover > 0),
-                    type VARCHAR(20) CHECK(type in ('PUBLIC', 'TRUST', 'COMMERCIAL', 'OPEN_JOINT_STOCK_COMPANY') OR type IS NULL),
+                    type VARCHAR(30) CHECK(type in ('PUBLIC', 'TRUST', 'COMMERCIAL', 'OPEN_JOINT_STOCK_COMPANY') OR type IS NULL),
                     postal_address TEXT NOT NULL,
                     owner_id BIGINT NOT NULL REFERENCES users(id)
                 );
